@@ -56,6 +56,19 @@ describe('showBookDtls', () => {
         });
     });
 
+    it('should return null if the book ID is not a string', async () => {
+        const id = {id: '1234'}; // did a type cast 
+    
+        // Act
+        await showBookDtls(res as Response, id as unknown as string);
+
+        // Assert
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith(`Book ${id} not found`);
+
+    })
+
+
     it('should return 404 if there book instance is null', async () => {
         const id = '12345';
         // Mocking the Book model's findOne method to throw an error
@@ -99,5 +112,5 @@ describe('showBookDtls', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith('Error fetching book 12345');
     });
-    
+
 });
